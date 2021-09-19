@@ -39,7 +39,7 @@ public class CPersona {
         this.vista = vista;
         vista.setVisible(true);
         vista.setTitle("Crud Basico");
-        vista.setLocationRelativeTo(null);
+        //vista.setLocationRelativeTo(null);
         cargaLista();
     }
 

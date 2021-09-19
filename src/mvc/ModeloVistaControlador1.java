@@ -6,7 +6,9 @@
 package mvc;
 
 import mvc.controlador.CPersona;
+import mvc.controlador.CPrincipal;
 import mvc.modelo.MPersona;
+import mvc.vista.VPrincipal;
 import mvc.vista.Vista;
 
 /**
@@ -21,12 +23,17 @@ public class ModeloVistaControlador1 {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        MPersona modelo = new MPersona();
+        VPrincipal vista = new VPrincipal();
+        CPrincipal control = new CPrincipal(vista);
+        control.inicaControl();
+        
+        
+        /*MPersona modelo = new MPersona();
         Vista vista = new Vista();
         
         CPersona control = new CPersona(modelo, vista);
        
-        control.iniciaControl();
+        control.iniciaControl();*/
         
     }
     

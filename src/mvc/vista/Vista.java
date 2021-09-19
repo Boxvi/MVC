@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 
 
 
-public class Vista extends javax.swing.JFrame {
+public class Vista extends javax.swing.JInternalFrame  {
 
     
     public Vista() {
