@@ -82,7 +82,7 @@ public class CPersona {
 
         lista.stream().forEach(p -> {
             String[] persona = {p.getIdpersona(), p.getNombres(), p.getApellidos(),
-                calcularEdad(p.getFechanacimiento().toString()), p.getTelefono(), p.getSexo(),
+                /*calcularEdad(p.getFechanacimiento().toString()),*/ p.getTelefono(), p.getSexo(),
                 p.getSueldo() + "", p.getCupo().toString()};
             tblModel.addRow(persona);
         });
