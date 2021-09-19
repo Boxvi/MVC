@@ -101,7 +101,7 @@ public class CPersona {
             case 2:
                 modificarPersona();
                 vista.getDlgPersona().setTitle("EDITAR PERSONA");
-                vista.getBtnAceptar().setText("MOFICIAR");
+                vista.getBtnAceptar().setText("MODIFIAR");
 
                 break;
         }
@@ -132,57 +132,39 @@ public class CPersona {
 
     //create ans update
     private void cmPersona() {
-        String fecha_nac = ((JTextField) vista.getJdcFechanacimiento().getDateEditor().getUiComponent()).getText();
-            
         //create
         if (vista.getBtnAceptar().getText().equals("CREAR")) {
-
-            //String diaNacimiento = ((JTextField) jDateChooser1.getDateEditor().getUiComponent()).getText();
-
-            MPersona persona = new MPersona();
-            persona.setIdpersona(vista.getTxtID().getText());
-            persona.setNombres(vista.getTxtNombres().getText());
-            persona.setApellidos(vista.getTxtApellidos().getText());
-            persona.setFechas(fecha_nac);
-            //persona.setEdad(fecha_nac);
-            //persona.setFechanacimiento(vista.getJdcFechanacimiento().getDateEditor());
-            
-            persona.setTelefono(vista.getTxtTelefono().getText());
-            persona.setSexo(vista.getJcbSexo().getSelectedItem().toString());
-            persona.setSueldo(Double.parseDouble(vista.getTxtSueldo().getText()));
-            persona.setCupo(Integer.parseInt(vista.getTxtCupo().getText()));
-           // persona.setFoto(vista.getLblImageC().get);
-            
-
-            int resultado = JOptionPane.showConfirmDialog(vista, "ESTA SEGURO QUE LOS DATOS INGRESADOS SON CORRECTOS", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (resultado == JOptionPane.YES_NO_OPTION) {
-                if (persona.Crear()) {
-                    JOptionPane.showMessageDialog(vista, "SE LOGRO GRABAR EL DATO EN LA BDD");
-                } else {
-                    JOptionPane.showMessageDialog(vista, "VALIENDO GASVER X¨D");
-                }
-            }
+            Crear();
         }
         //update
-        if (vista.getBtnAceptar().getText().equals("MOFICIAR")) {
-
-            MPersona persona = new MPersona();
-            //persona.setIdpersona(vista.getTxtID().getText());
-            persona.setNombres(vista.getTxtNombres().getText());
-            persona.setApellidos(vista.getTxtApellidos().getText());
-            persona.setFechas(fecha_nac);
-            persona.setTelefono(vista.getTxtTelefono().getText());
-            persona.setSexo(vista.getJcbSexo().getSelectedItem().toString());
-            persona.setSueldo(Double.parseDouble(vista.getTxtSueldo().getText()));
-            persona.setCupo(Integer.parseInt(vista.getTxtCupo().getText()));
+        if (vista.getBtnAceptar().getText().equals("MODIFIAR")) {
+            Modificar();
             
-            int resultado = JOptionPane.showConfirmDialog(vista, "ESTA SEGURO QUE LOS DATOS INGRESADOS SON CORRECTOS", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (resultado == JOptionPane.YES_NO_OPTION) {
-                if (persona.Modificar(vista.getTxtID().getText())) {
-                    JOptionPane.showMessageDialog(vista, "SE LOGRO GRABAR EL DATO EN LA BDD");
-                } else {
-                    JOptionPane.showMessageDialog(vista, "VALIENDO GASVER X¨D");
-                }
+        }
+    }
+
+    //Create
+    private void Crear() {
+
+        MPersona persona = new MPersona();
+        persona.setIdpersona(vista.getTxtID().getText());
+        persona.setNombres(vista.getTxtNombres().getText());
+        persona.setApellidos(vista.getTxtApellidos().getText());
+        persona.setFechas(((JTextField) vista.getJdcFechanacimiento().getDateEditor().getUiComponent()).getText());
+        persona.setTelefono(vista.getTxtTelefono().getText());
+        persona.setSexo(vista.getJcbSexo().getSelectedItem().toString());
+        persona.setSueldo(Double.parseDouble(vista.getTxtSueldo().getText()));
+        persona.setCupo(Integer.parseInt(vista.getTxtCupo().getText()));
+        // persona.setFoto(vista.getLblImageC().get);
+
+        int resultado = JOptionPane.showConfirmDialog(vista, "ESTA SEGURO QUE LOS DATOS INGRESADOS SON CORRECTOS", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (resultado == JOptionPane.YES_NO_OPTION) {
+            if (persona.Crear()) {
+                JOptionPane.showMessageDialog(vista, "SE LOGRO GRABAR EL DATO EN LA BDD");
+                limpiarCampos();
+                cargaLista();
+            } else {
+                JOptionPane.showMessageDialog(vista, "VALIENDO GASVER X¨D");
             }
         }
     }
@@ -201,6 +183,30 @@ public class CPersona {
                 p.getSueldo() + "", p.getCupo().toString()};
             tblModel.addRow(persona);
         });
+    }
+
+    //Update
+    private void Modificar() {
+        MPersona persona = new MPersona();
+        //persona.setIdpersona(vista.getTxtID().getText());
+        persona.setNombres(vista.getTxtNombres().getText());
+        persona.setApellidos(vista.getTxtApellidos().getText());
+        persona.setFechas(((JTextField) vista.getJdcFechanacimiento().getDateEditor().getUiComponent()).getText());
+        persona.setTelefono(vista.getTxtTelefono().getText());
+        persona.setSexo(vista.getJcbSexo().getSelectedItem().toString());
+        persona.setSueldo(Double.parseDouble(vista.getTxtSueldo().getText()));
+        persona.setCupo(Integer.parseInt(vista.getTxtCupo().getText()));
+
+        int resultado = JOptionPane.showConfirmDialog(vista, "ESTA SEGURO QUE LOS DATOS INGRESADOS SON CORRECTOS", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (resultado == JOptionPane.YES_NO_OPTION) {
+            if (persona.Modificar(vista.getTxtID().getText())) {
+                JOptionPane.showMessageDialog(vista, "SE LOGRO GRABAR EL DATO EN LA BDD");
+                limpiarCampos();
+                cargaLista();
+            } else {
+                JOptionPane.showMessageDialog(vista, "VALIENDO GASVER X¨D");
+            }
+        }
     }
 
     //delete
@@ -229,11 +235,13 @@ public class CPersona {
         DefaultTableModel tblPersonas = (DefaultTableModel) vista.getTblPersona().getModel();
         int fila = vista.getTblPersona().getSelectedRow();
         if (fila != -1) {
-            vista.getTxtID().setText(tblPersonas.getValueAt(fila, 0).toString());
+            ///vista.getTxtID().setText(tblPersonas.getValueAt(fila, 0).toString());
 
             vista.getTxtID().setText(tblPersonas.getValueAt(fila, 0).toString());
             vista.getTxtNombres().setText(tblPersonas.getValueAt(fila, 1).toString());
             vista.getTxtApellidos().setText(tblPersonas.getValueAt(fila, 2).toString());
+            //vista.getJdcFechanacimiento().setDateFormatString(tblPersonas.getValueAt(fila, 3).toString());
+            
             // vista.getDtcFechaNacimiento().setDate(Date.valueOf(tblPersonas.getValueAt(fila, 3).toString()));
             vista.getTxtTelefono().setText(tblPersonas.getValueAt(fila, 4).toString());
             vista.getJcbSexo().setSelectedItem(tblPersonas.getValueAt(fila, 5));
@@ -249,6 +257,18 @@ public class CPersona {
     //CERRAR
     private void cerrarDialogo() {
         vista.getDlgPersona().dispose();
+    }
+
+    //LIMPIAR CAMPOS
+    private void limpiarCampos(){
+        vista.getTxtID().setText(null);
+        vista.getTxtNombres().setText(null);
+        vista.getTxtApellidos().setText(null);
+        vista.getJdcFechanacimiento().setDate(null);
+        vista.getTxtTelefono().setText(null);
+        vista.getJcbSexo().setSelectedIndex(0);
+        vista.getTxtSueldo().setText(null);
+        vista.getTxtCupo().setText(null);
     }
 
 }
@@ -267,4 +287,7 @@ public class CPersona {
 
     }
 calcularEdad(p.getFechanacimiento().toString()),
+
+        //persona.setEdad(fecha_nac);
+        //persona.setFechanacimiento(vista.getJdcFechanacimiento().getDateEditor());
  */

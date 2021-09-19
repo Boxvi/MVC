@@ -87,7 +87,7 @@ public class MPersona extends Persona {
                 per.setSexo(rs.getString("sexo"));
                 per.setSueldo(rs.getDouble("sueldo"));
                 per.setCupo(rs.getInt("cupo"));
-                per.setFoto((Image) rs.getObject("foto"));
+               // per.setFoto((Image) rs.getObject("foto"));
                 lp.add(per);
             }
             rs.close();
@@ -131,7 +131,7 @@ public class MPersona extends Persona {
                 per.setSexo(rs.getString("sexo"));
                 per.setSueldo(rs.getDouble("sueldo"));
                 per.setCupo(rs.getInt("cupo"));
-                per.setFoto((Image) rs.getObject("foto"));
+//                per.setFoto((Image) rs.getObject("foto"));
                 lp.add(per);
             }
             rs.close();
