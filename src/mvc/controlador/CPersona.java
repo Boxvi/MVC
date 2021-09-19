@@ -101,7 +101,7 @@ public class CPersona {
             case 2:
                 modificarPersona();
                 vista.getDlgPersona().setTitle("EDITAR PERSONA");
-                vista.getBtnAceptar().setText("MODIFIAR");
+                vista.getBtnAceptar().setText("MODIFICAR");
 
                 break;
         }
@@ -137,7 +137,7 @@ public class CPersona {
             Crear();
         }
         //update
-        if (vista.getBtnAceptar().getText().equals("MODIFIAR")) {
+        if (vista.getBtnAceptar().getText().equals("MODIFICAR")) {
             Modificar();
             
         }
@@ -155,7 +155,7 @@ public class CPersona {
         persona.setSexo(vista.getJcbSexo().getSelectedItem().toString());
         persona.setSueldo(Double.parseDouble(vista.getTxtSueldo().getText()));
         persona.setCupo(Integer.parseInt(vista.getTxtCupo().getText()));
-        // persona.setFoto(vista.getLblImageC().get);
+        //persona.setFoto(vista.getLblImageC().S);
 
         int resultado = JOptionPane.showConfirmDialog(vista, "ESTA SEGURO QUE LOS DATOS INGRESADOS SON CORRECTOS", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (resultado == JOptionPane.YES_NO_OPTION) {
@@ -271,6 +271,7 @@ public class CPersona {
         vista.getTxtCupo().setText(null);
     }
 
+    
 }
 /*
     private String calcularEdad(String cadena) {
