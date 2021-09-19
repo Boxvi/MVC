@@ -25,8 +25,12 @@ public class MPersona extends Persona {
     public MPersona() {
     }
 
-    public MPersona(String idpersona, String nombres, String apellidos, Date fechanacimiento, String telefono, String sexo, double sueldo, Integer cupo, Image foto) {
+    /*public MPersona(String idpersona, String nombres, String apellidos, Date fechanacimiento, String telefono, String sexo, double sueldo, Integer cupo, Image foto) {
         super(idpersona, nombres, apellidos, fechanacimiento, telefono, sexo, sueldo, cupo, foto);
+    }*/    
+    public MPersona(String idpersona, String nombres, String apellidos, String fechas, String telefono, String sexo, double sueldo, Integer cupo, Image foto) {
+        super(idpersona, nombres, apellidos, fechas, telefono, sexo, sueldo, cupo, foto);
+
     }
 
     //create
@@ -34,15 +38,16 @@ public class MPersona extends Persona {
         /*
         con la fecha de nacimient y la foto
         INSERT INTO public.persona(
-	idpersona, nombres, apellidos, fechanacimiento, telefono, sexo, sueldo, cupo, foto)
-	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
-         */
+        idpersona, nombres, apellidos, fechanacimiento, telefono, sexo, sueldo, cupo, foto)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+        */
         String sqla = "INSERT INTO public.persona"
-                + " (idpersona, nombres, apellidos, telefono, sexo, sueldo, cupo)"
-                + " VALUES ('" + getIdpersona() + "', '" + getNombres() + "', '" + getApellidos() + "', '" + getTelefono() + "', '" + getSexo() + "', " + getSueldo() + ", " + getCupo() + ")";
+                + " (idpersona, nombres, apellidos, fechanacimiento, telefono, sexo, sueldo, cupo, foto)"
+                + " VALUES ('" + getIdpersona() + "', '" + getNombres() + "', '" + getApellidos() 
+                + "',to_date('"+getFechas()+"','yyyy-MM-dd') ,'" + getTelefono() + "', '" + getSexo() 
+                + "', " + getSueldo() + ", " + getCupo() + ",'"+getFoto()+"')";
         System.out.println(sqla);
         return con.accion(sqla);
-
     }
 
     //update
@@ -54,7 +59,7 @@ public class MPersona extends Persona {
 	WHERE <condition>;
          */
         String sqla = "UPDATE public.persona "
-                + "SET nombres='" + getNombres() + "', apellidos='" + getApellidos() + "', telefono='" + getTelefono() + "', sexo='" + getSexo() + "', sueldo=" + getSueldo() + ", cupo=" + getCupo() + ""
+                + "SET nombres='" + getNombres() + "', apellidos='" + getApellidos() + "',fechanacimiento= to_date('"+getFechas()+"','yyyy-MM-dd') , telefono='" + getTelefono() + "', sexo='" + getSexo() + "', sueldo=" + getSueldo() + ", cupo=" + getCupo() + ""
                 + "WHERE idpersona= '" + Identificador + "'";
         System.out.println(sqla);
         return con.accion(sqla);
@@ -65,7 +70,7 @@ public class MPersona extends Persona {
     public List<Persona> listaPersonas() {
         String sql = "select idpersona,nombres,apellidos, "
                 + "COALESCE(substring(cast(age(fechanacimiento) as character varying),1,2),'N/A'),"
-                + "telefono,sexo,sueldo,cupo,foto from public.persona;";
+                + "telefono,sexo,sueldo,cupo,foto from public.persona order by idpersona asc";
         /*String sql = "SELECT * FROM public.persona";*/
         ResultSet rs = con.consulta(sql);
         List<Persona> lp = new ArrayList<>();
@@ -104,10 +109,13 @@ public class MPersona extends Persona {
     //buscador
 
     public List<Persona> listaPersonas(String cadena) {
-        String sql = "SELECT * FROM public.persona where";
+        String sql = "select idpersona,nombres,apellidos, "
+                + "COALESCE(substring(cast(age(fechanacimiento) as character varying),1,2),'N/A'),"
+                + "telefono,sexo,sueldo,cupo,foto from public.persona where";
         sql += " idpersona like '%" + cadena + "%' ";
         sql += " OR upper(nombres) like Upper('%" + cadena + "%') ";
         sql += " OR upper(apellidos) like Upper('%" + cadena + "%') ";
+        
 
         ResultSet rs = con.consulta(sql);
         List<Persona> lp = new ArrayList<>();
@@ -117,7 +125,8 @@ public class MPersona extends Persona {
                 per.setIdpersona(rs.getString("idpersona"));
                 per.setNombres(rs.getString("nombres"));
                 per.setApellidos(rs.getString("apellidos"));
-                per.setFechanacimiento(rs.getDate("fechanacimiento"));
+                per.setEdad(rs.getString(4));
+                /*per.setFechanacimiento(rs.getDate("fechanacimiento"));*/
                 per.setTelefono(rs.getString("telefono"));
                 per.setSexo(rs.getString("sexo"));
                 per.setSueldo(rs.getDouble("sueldo"));

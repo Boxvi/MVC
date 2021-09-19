@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
@@ -18,6 +19,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import mvc.modelo.MPersona;
 import mvc.modelo.Persona;
@@ -62,9 +64,9 @@ public class CPersona {
         vista.getTxtBuscador().addKeyListener(kl);
         //Crud
         vista.getBtnCrear().addActionListener(l -> cargaDialogo(1));
-        vista.getBtnRefresacar().addActionListener(l-> cargaLista());
+        vista.getBtnRefresacar().addActionListener(l -> cargaLista());
         vista.getBtnEditar().addActionListener(l -> cargaDialogo(2));
-        vista.getBtnEliminar().addActionListener(l-> eliminarPersona());
+        vista.getBtnEliminar().addActionListener(l -> eliminarPersona());
 
         //dialog imagen
         vista.getBtnExaminar().addActionListener(l -> examinarFoto());
@@ -82,7 +84,7 @@ public class CPersona {
 
         lista.stream().forEach(p -> {
             String[] persona = {p.getIdpersona(), p.getNombres(), p.getApellidos(),
-                /*calcularEdad(p.getFechanacimiento().toString()),*/ p.getTelefono(), p.getSexo(),
+                p.getEdad(), p.getTelefono(), p.getSexo(),
                 p.getSueldo() + "", p.getCupo().toString()};
             tblModel.addRow(persona);
         });
@@ -130,17 +132,27 @@ public class CPersona {
 
     //create ans update
     private void cmPersona() {
+        String fecha_nac = ((JTextField) vista.getJdcFechanacimiento().getDateEditor().getUiComponent()).getText();
+            
         //create
         if (vista.getBtnAceptar().getText().equals("CREAR")) {
-            //do {
+
+            //String diaNacimiento = ((JTextField) jDateChooser1.getDateEditor().getUiComponent()).getText();
+
             MPersona persona = new MPersona();
             persona.setIdpersona(vista.getTxtID().getText());
             persona.setNombres(vista.getTxtNombres().getText());
             persona.setApellidos(vista.getTxtApellidos().getText());
+            persona.setFechas(fecha_nac);
+            //persona.setEdad(fecha_nac);
+            //persona.setFechanacimiento(vista.getJdcFechanacimiento().getDateEditor());
+            
             persona.setTelefono(vista.getTxtTelefono().getText());
             persona.setSexo(vista.getJcbSexo().getSelectedItem().toString());
             persona.setSueldo(Double.parseDouble(vista.getTxtSueldo().getText()));
             persona.setCupo(Integer.parseInt(vista.getTxtCupo().getText()));
+           // persona.setFoto(vista.getLblImageC().get);
+            
 
             int resultado = JOptionPane.showConfirmDialog(vista, "ESTA SEGURO QUE LOS DATOS INGRESADOS SON CORRECTOS", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (resultado == JOptionPane.YES_NO_OPTION) {
@@ -158,10 +170,12 @@ public class CPersona {
             //persona.setIdpersona(vista.getTxtID().getText());
             persona.setNombres(vista.getTxtNombres().getText());
             persona.setApellidos(vista.getTxtApellidos().getText());
+            persona.setFechas(fecha_nac);
             persona.setTelefono(vista.getTxtTelefono().getText());
             persona.setSexo(vista.getJcbSexo().getSelectedItem().toString());
             persona.setSueldo(Double.parseDouble(vista.getTxtSueldo().getText()));
             persona.setCupo(Integer.parseInt(vista.getTxtCupo().getText()));
+            
             int resultado = JOptionPane.showConfirmDialog(vista, "ESTA SEGURO QUE LOS DATOS INGRESADOS SON CORRECTOS", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (resultado == JOptionPane.YES_NO_OPTION) {
                 if (persona.Modificar(vista.getTxtID().getText())) {
@@ -189,10 +203,7 @@ public class CPersona {
         });
     }
 
-
-
     //delete
-    
     //Metodo para eliminar a la persona seleccionada
     private void eliminarPersona() {
         DefaultTableModel tblPersonas = (DefaultTableModel) vista.getTblPersona().getModel();
@@ -212,9 +223,7 @@ public class CPersona {
             JOptionPane.showMessageDialog(vista, "DE PRIMERO CLICK ENCIMA EN ALGUNA PERSONA Y LUEGO EN ELIMINAR", "AVISO", 2);
         }
     }
-    
 
-    
     //seleccionar
     private void modificarPersona() {
         DefaultTableModel tblPersonas = (DefaultTableModel) vista.getTblPersona().getModel();
@@ -258,4 +267,4 @@ public class CPersona {
 
     }
 calcularEdad(p.getFechanacimiento().toString()),
-*/
+ */

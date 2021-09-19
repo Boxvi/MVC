@@ -102,8 +102,8 @@ public class Vista extends javax.swing.JFrame {
         jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(339, 38, -1, -1));
 
         lblImageC.setBackground(new java.awt.Color(255, 255, 51));
-        lblImageC.setBorder(javax.swing.BorderFactory.createCompoundBorder());
-        jPanel1.add(lblImageC, new org.netbeans.lib.awtextra.AbsoluteConstraints(339, 66, 215, 275));
+        lblImageC.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 204, 0)));
+        jPanel1.add(lblImageC, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 60, 215, 275));
 
         txtNombres.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jPanel1.add(txtNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(112, 79, 221, -1));

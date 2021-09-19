@@ -13,7 +13,7 @@ import java.sql.Date;
  * @author Boriss
  */
 public class Persona {
-    
+
     private String idpersona;
     private String nombres;
     private String apellidos;
@@ -23,14 +23,28 @@ public class Persona {
     private double sueldo;
     private Integer cupo;
     private Image foto;
-    private String edad;
-    
-    //private String edad;
 
+    private String edad;
+    private String fechas;
+
+    //private String edad;
     public Persona() {
     }
 
-    public Persona(String idpersona, String nombres, String apellidos, Date fechanacimiento, String telefono, String sexo, double sueldo, Integer cupo, Image foto) {
+    public Persona(String idpersona, String nombres, String apellidos, String fechas, String telefono, String sexo, double sueldo, Integer cupo, Image foto) {
+        this.idpersona = idpersona;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.fechas = fechas;
+        this.telefono = telefono;
+        this.sexo = sexo;
+        this.sueldo = sueldo;
+        this.cupo = cupo;
+        this.foto = foto;
+
+    }
+
+    /*public Persona(String idpersona, String nombres, String apellidos, Date fechanacimiento, String telefono, String sexo, double sueldo, Integer cupo, Image foto) {
         this.idpersona = idpersona;
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -40,8 +54,7 @@ public class Persona {
         this.sueldo = sueldo;
         this.cupo = cupo;
         this.foto = foto;
-    }
-
+    }*/
     public String getIdpersona() {
         return idpersona;
     }
@@ -122,7 +135,12 @@ public class Persona {
         this.edad = edad;
     }
 
+    public String getFechas() {
+        return fechas;
+    }
 
-    
-    
+    public void setFechas(String fechas) {
+        this.fechas = fechas;
+    }
+
 }
