@@ -155,6 +155,10 @@ public class CPersona {
         persona.setSexo(vista.getJcbSexo().getSelectedItem().toString());
         persona.setSueldo(Double.parseDouble(vista.getTxtSueldo().getText()));
         persona.setCupo(Integer.parseInt(vista.getTxtCupo().getText()));
+        
+        ImageIcon ic = (ImageIcon) vista.getLblImageC().getIcon(); 
+        persona.setFoto(ic.getImage());
+       // persona.setFoto(vista.getLblImageC().getBinayStream);
         //persona.setFoto(vista.getLblImageC().S);
 
         int resultado = JOptionPane.showConfirmDialog(vista, "ESTA SEGURO QUE LOS DATOS INGRESADOS SON CORRECTOS", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -196,6 +200,9 @@ public class CPersona {
         persona.setSexo(vista.getJcbSexo().getSelectedItem().toString());
         persona.setSueldo(Double.parseDouble(vista.getTxtSueldo().getText()));
         persona.setCupo(Integer.parseInt(vista.getTxtCupo().getText()));
+        
+        ImageIcon ic = (ImageIcon) vista.getLblImageC().getIcon(); 
+        persona.setFoto(ic.getImage());
 
         int resultado = JOptionPane.showConfirmDialog(vista, "ESTA SEGURO QUE LOS DATOS INGRESADOS SON CORRECTOS", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (resultado == JOptionPane.YES_NO_OPTION) {

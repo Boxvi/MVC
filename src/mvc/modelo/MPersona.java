@@ -82,7 +82,7 @@ public class MPersona extends Persona {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
         try {
-            ImageIO.write(img, "PNG", bos);
+            ImageIO.write(img, "jpg", bos);
             byte[] imgb = bos.toByteArray();
             foto64 = Base64.encodeBytes(imgb);
         } catch (IOException ex) {
@@ -101,12 +101,7 @@ public class MPersona extends Persona {
 
     //update
     public boolean Modificar(String Identificador) {
-        /*
-        con la fecha de nacmieno y la foto
-        UPDATE public.persona
-	SET idpersona=?, nombres=?, apellidos=?, fechanacimiento=?, telefono=?, sexo=?, sueldo=?, cupo=?, foto=?
-	WHERE <condition>;
-         */
+        
         String sqla = "UPDATE public.persona "
                 + "SET nombres='" + getNombres() + "', apellidos='" + getApellidos() + "',fechanacimiento= to_date('" + getFechas() + "','yyyy-MM-dd') , telefono='" + getTelefono() + "', sexo='" + getSexo() + "', sueldo=" + getSueldo() + ", cupo=" + getCupo() + ""
                 + "WHERE idpersona= '" + Identificador + "'";
@@ -136,7 +131,20 @@ public class MPersona extends Persona {
                 per.setSexo(rs.getString("sexo"));
                 per.setSueldo(rs.getDouble("sueldo"));
                 per.setCupo(rs.getInt("cupo"));
-                // per.setFoto((Image) rs.getObject("foto"));
+/*
+                byte[] bf = rs.getBytes("foto");
+                if (bf != null) {
+                    bf = Base64.decode(bf, 0, bf.length);
+                    try {
+                        per.setFoto(obtenerImagen(bf));
+                    } catch (IOException ex) {
+                        per.setFoto(null);
+                        Logger.getLogger(MPersona.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    per.setFoto(null);
+                }*/
+
                 lp.add(per);
             }
             rs.close();
@@ -177,16 +185,16 @@ public class MPersona extends Persona {
                 per.setSexo(rs.getString("sexo"));
                 per.setSueldo(rs.getDouble("sueldo"));
                 per.setCupo(rs.getInt("cupo"));
-                byte[] bf=rs.getBytes("foto");
-                if (bf!=null) {
-                    bf=Base64.decode(bf, 0, bf.length);
+                byte[] bf = rs.getBytes("foto");
+                if (bf != null) {
+                    bf = Base64.decode(bf, 0, bf.length);
                     try {
                         per.setFoto(obtenerImagen(bf));
                     } catch (IOException ex) {
                         per.setFoto(null);
                         Logger.getLogger(MPersona.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }else{
+                } else {
                     per.setFoto(null);
                 }
                 lp.add(per);
