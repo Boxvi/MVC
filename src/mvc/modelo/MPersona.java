@@ -5,26 +5,18 @@
  */
 package mvc.modelo;
 
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReadParam;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
 import org.postgresql.util.Base64;
 
 /**
@@ -89,7 +81,9 @@ public class MPersona extends Persona {
     public boolean Modificar(String Identificador) {
 
         String sqla = "UPDATE public.persona "
-                + "SET nombres='" + getNombres() + "', apellidos='" + getApellidos() + "',fechanacimiento= to_date('" + getFechas() + "','yyyy-MM-dd') , telefono='" + getTelefono() + "', sexo='" + getSexo() + "', sueldo=" + getSueldo() + ", cupo=" + getCupo() + ""
+                + "SET nombres='" + getNombres() + "', apellidos='" + getApellidos() + "',fechanacimiento= to_date('" + getFechas()
+                + "','yyyy-MM-dd') , telefono='" + getTelefono() + "', sexo='" + getSexo() + "', sueldo=" + getSueldo()
+                + ", cupo=" + getCupo() + ", foto= '" + Foto64(getFoto()) + "'"
                 + "WHERE idpersona= '" + Identificador + "'";
         System.out.println(sqla);
         return con.accion(sqla);
@@ -97,11 +91,16 @@ public class MPersona extends Persona {
     }
 
     //read
-    /*public List<Persona> listaPersonas() {
-        String sql = "select idpersona,nombres,apellidos, "
+    public List<Persona> listaPersonas() {
+
+        String sql = "select idpersona,nombres,apellidos, fechanacimiento,"
                 + "COALESCE(substring(cast(age(fechanacimiento) as character varying),1,2),'N/A'),"
-                + "telefono,sexo,sueldo,cupo,foto from public.persona order by idpersona asc";
-        /*String sql = "SELECT * FROM public.persona";
+                + "telefono,sexo,sueldo,cupo,foto from public.persona";
+
+        /*String sql = "select idpersona,nombres,apellidos, "
+                + "COALESCE(substring(cast(age(fechanacimiento) as character varying),1,2),'N/A'),"
+                + "telefono,sexo,sueldo,cupo,foto from public.persona order by idpersona asc";*/
+        //String sql = "SELECT * FROM public.persona";
         ResultSet rs = con.consulta(sql);
         List<Persona> lp = new ArrayList<>();
         try {
@@ -110,14 +109,14 @@ public class MPersona extends Persona {
                 per.setIdpersona(rs.getString("idpersona"));
                 per.setNombres(rs.getString("nombres"));
                 per.setApellidos(rs.getString("apellidos"));
-                per.setEdad(rs.getString(4));
-                //per.setEdad(rs.get);
-                //*per.setFechanacimiento(rs.getDate("fechanacimiento"));
+                per.setFechanacimiento(rs.getDate("fechanacimiento"));
+                per.setEdad(rs.getString(5));
                 per.setTelefono(rs.getString("telefono"));
                 per.setSexo(rs.getString("sexo"));
                 per.setSueldo(rs.getDouble("sueldo"));
                 per.setCupo(rs.getInt("cupo"));
-                byte[] image = rs.getBytes("foto");
+
+                /*byte[] image = rs.getBytes("foto");
                 if (image != null) {
                     per.setFoto(byteArrayToImage(rs.getBytes("foto")));
                 }
@@ -135,7 +134,7 @@ public class MPersona extends Persona {
                     }
                 } else {
                     per.setFoto(null);
-                //}
+                }*/
                 lp.add(per);
             }
             rs.close();
@@ -144,7 +143,8 @@ public class MPersona extends Persona {
             Logger.getLogger(MPersona.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-    }*/
+    }
+
     //delete
     public boolean Borrar(String Identificador) {
         String sqla = "DELETE FROM public.persona WHERE idpersona= '" + Identificador + "'";
@@ -155,7 +155,7 @@ public class MPersona extends Persona {
 
     //buscador
     public List<Persona> listaPersonas(String cadena) {
-        String sql = "select idpersona,nombres,apellidos, "
+        String sql = "select idpersona,nombres,apellidos, fechanacimiento,"
                 + "COALESCE(substring(cast(age(fechanacimiento) as character varying),1,2),'N/A'),"
                 + "telefono,sexo,sueldo,cupo,foto from public.persona where";
         sql += " idpersona like '%" + cadena + "%' ";
@@ -170,7 +170,8 @@ public class MPersona extends Persona {
                 per.setIdpersona(rs.getString("idpersona"));
                 per.setNombres(rs.getString("nombres"));
                 per.setApellidos(rs.getString("apellidos"));
-                per.setEdad(rs.getString(4));
+                per.setFechanacimiento(rs.getDate("fechanacimiento"));
+                per.setEdad(rs.getString(5));
                 per.setTelefono(rs.getString("telefono"));
                 per.setSexo(rs.getString("sexo"));
                 per.setSueldo(rs.getDouble("sueldo"));
@@ -178,12 +179,13 @@ public class MPersona extends Persona {
 
                 byte[] image = rs.getBytes("foto");
                 if (image != null) {
-                    //image = Base64.decode(image, 0, image.length);
                     try {
+                        image = Base64.decode(image, 0, image.length);
                         per.setFoto(obtenerImagen(image));
                     } catch (Exception e) {
                         per.setFoto(null);
                     }
+
                 } else {
                     per.setFoto(null);
                 }

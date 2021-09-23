@@ -8,12 +8,7 @@ package mvc.controlador;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.sql.Date;
-import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -85,7 +80,7 @@ public class CPersona {
 
         vista.getTblPersona().setDefaultRenderer(Object.class, new ImagenTabla());
         vista.getTblPersona().setRowHeight(100);
-        DefaultTableCellRenderer render = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
 
         DefaultTableModel tblModel;
         tblModel = (DefaultTableModel) vista.getTblPersona().getModel();
@@ -101,21 +96,23 @@ public class CPersona {
             vista.getTblPersona().setValueAt(p.getIdpersona(), i.value, 0);
             vista.getTblPersona().setValueAt(p.getNombres(), i.value, 1);
             vista.getTblPersona().setValueAt(p.getApellidos(), i.value, 2);
-            vista.getTblPersona().setValueAt(p.getEdad(), i.value, 3);
-            vista.getTblPersona().setValueAt(p.getTelefono(), i.value, 4);
-            vista.getTblPersona().setValueAt(p.getSexo(), i.value, 5);
-            vista.getTblPersona().setValueAt(p.getSueldo(), i.value, 6);
-            vista.getTblPersona().setValueAt(p.getCupo(), i.value, 7);
+            vista.getTblPersona().setValueAt(p.getFechanacimiento(), i.value, 3);
+            vista.getTblPersona().setValueAt(p.getEdad(), i.value, 4);
+            vista.getTblPersona().setValueAt(p.getTelefono(), i.value, 5);
+            vista.getTblPersona().setValueAt(p.getSexo(), i.value, 6);
+            vista.getTblPersona().setValueAt(p.getSueldo(), i.value, 7);
+            vista.getTblPersona().setValueAt(p.getCupo(), i.value, 8);
 
             Image img = p.getFoto();
             if (img != null) {
                 Image nimg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
                 ImageIcon icon = new ImageIcon(nimg);
-                render.setIcon(icon);
-                vista.getTblPersona().setValueAt(new JLabel(icon), i.value, 8);
+                renderer.setIcon(icon);
+                vista.getTblPersona().setValueAt(new JLabel(icon), i.value, 9);
             } else {
-                vista.getTblPersona().setValueAt(null, i.value, 8);
+                vista.getTblPersona().setValueAt(null, i.value, 9);
             }
+            i.value++;
 
         });
 
@@ -199,7 +196,7 @@ public class CPersona {
             if (persona.Crear()) {
                 JOptionPane.showMessageDialog(vista, "SE LOGRO GRABAR EL DATO EN LA BDD");
                 limpiarCampos();
-              //  cargaLista();
+              // cargaLista();
             } else {
                 JOptionPane.showMessageDialog(vista, "VALIENDO GASVER X¨D");
             }
@@ -207,7 +204,7 @@ public class CPersona {
     }
 
     //read
-    /* private void cargaLista() {
+   private void cargaLista() {
         DefaultTableModel tblModel;
         tblModel = (DefaultTableModel) vista.getTblPersona().getModel();
         tblModel.setNumRows(0);
@@ -215,13 +212,14 @@ public class CPersona {
         List<Persona> lista = modelo.listaPersonas();
 
         lista.stream().forEach(p -> {
-            String[] persona = {p.getIdpersona(), p.getNombres(), p.getApellidos(),
+            String[] persona = {p.getIdpersona(), p.getNombres(), p.getApellidos(), p.getFechanacimiento() + "",
                 p.getEdad(), p.getTelefono(), p.getSexo(),
                 p.getSueldo() + "", p.getCupo().toString()};
            // vista.getLblFoto().setIcon(persona[9]);
             tblModel.addRow(persona);
         });
-    }*/
+    }
+            
     //Update
     private void Modificar() {
         MPersona persona = new MPersona();
@@ -242,7 +240,7 @@ public class CPersona {
             if (persona.Modificar(vista.getTxtID().getText())) {
                 JOptionPane.showMessageDialog(vista, "SE LOGRO GRABAR EL DATO EN LA BDD");
                 limpiarCampos();
-                //cargaLista();
+               // cargaLista();
             } else {
                 JOptionPane.showMessageDialog(vista, "VALIENDO GASVER X¨D");
             }
@@ -272,6 +270,7 @@ public class CPersona {
 
     //seleccionar
     private void modificarPersona() {
+         MPersona persona = new MPersona();
         DefaultTableModel tblPersonas = (DefaultTableModel) vista.getTblPersona().getModel();
         int fila = vista.getTblPersona().getSelectedRow();
         if (fila != -1) {
@@ -280,14 +279,13 @@ public class CPersona {
             vista.getTxtID().setText(tblPersonas.getValueAt(fila, 0).toString());
             vista.getTxtNombres().setText(tblPersonas.getValueAt(fila, 1).toString());
             vista.getTxtApellidos().setText(tblPersonas.getValueAt(fila, 2).toString());
-            //vista.getJdcFechanacimiento().setDateFormatString(tblPersonas.getValueAt(fila, 3).toString());
-
-            // vista.getDtcFechaNacimiento().setDate(Date.valueOf(tblPersonas.getValueAt(fila, 3).toString()));
-            vista.getTxtTelefono().setText(tblPersonas.getValueAt(fila, 4).toString());
-            vista.getJcbSexo().setSelectedItem(tblPersonas.getValueAt(fila, 5));
-
-            vista.getTxtSueldo().setText(tblPersonas.getValueAt(fila, 6).toString());
-            vista.getTxtCupo().setText(tblPersonas.getValueAt(fila, 7).toString());
+            vista.getJdcFechanacimiento().setDateFormatString(tblPersonas.getValueAt(fila, 3).toString());
+            
+            vista.getTxtTelefono().setText(tblPersonas.getValueAt(fila, 5).toString());
+            vista.getJcbSexo().setSelectedItem(tblPersonas.getValueAt(fila, 6));
+            vista.getTxtSueldo().setText(tblPersonas.getValueAt(fila, 7).toString());
+            vista.getTxtCupo().setText(tblPersonas.getValueAt(fila, 8).toString());
+            
         } else {
             JOptionPane.showMessageDialog(vista, "DE PRIMERO CLICK ENCIMA EN ALGUNA PERSONA Y LUEGO EN EDITAR", "AVISO", 2);
         }
@@ -309,7 +307,7 @@ public class CPersona {
         vista.getJcbSexo().setSelectedIndex(0);
         vista.getTxtSueldo().setText(null);
         vista.getTxtCupo().setText(null);
-        vista.getLblImageC().setText(null);
+        vista.getLblImageC().setText(" ");
     }
 
 }

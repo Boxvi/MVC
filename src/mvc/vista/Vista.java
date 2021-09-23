@@ -196,7 +196,7 @@ public class Vista extends javax.swing.JInternalFrame  {
                 .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
                 .addComponent(btnImprimir)
                 .addContainerGap())
         );
@@ -215,7 +215,7 @@ public class Vista extends javax.swing.JInternalFrame  {
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
-        Fondo.add(Encabezado, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 100));
+        Fondo.add(Encabezado, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 100));
 
         PiePagina.setBackground(new java.awt.Color(102, 0, 204));
 
@@ -228,17 +228,17 @@ public class Vista extends javax.swing.JInternalFrame  {
             .addGroup(PiePaginaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addContainerGap(847, Short.MAX_VALUE))
+                .addContainerGap(917, Short.MAX_VALUE))
         );
         PiePaginaLayout.setVerticalGroup(
             PiePaginaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PiePaginaLayout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
+                .addContainerGap(8, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(16, 16, 16))
         );
 
-        Fondo.add(PiePagina, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 550, 920, 50));
+        Fondo.add(PiePagina, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 550, 990, 40));
 
         tblPersona.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         tblPersona.setModel(new javax.swing.table.DefaultTableModel(
@@ -246,18 +246,20 @@ public class Vista extends javax.swing.JInternalFrame  {
 
             },
             new String [] {
-                "ID", "NOMBRES", "APELLIDOS", "EDAD", "TELEFONO", "SEXO", "SUELDO", "CUPO", "FOTO"
+                "ID", "NOMBRES", "APELLIDOS", "FECHA_NAC", "EDAD", "TELEFONO", "SEXO", "SUELDO", "CUPO", "FOTO"
             }
         ));
         jScrollPane1.setViewportView(tblPersona);
 
-        Fondo.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 900, 430));
+        Fondo.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 970, 430));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(Fondo, javax.swing.GroupLayout.PREFERRED_SIZE, 985, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -5,11 +5,8 @@
  */
 package mvc;
 
-import mvc.controlador.CPersona;
 import mvc.controlador.CPrincipal;
-import mvc.modelo.MPersona;
 import mvc.vista.VPrincipal;
-import mvc.vista.Vista;
 
 /**
  *
