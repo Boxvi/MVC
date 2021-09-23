@@ -59,7 +59,6 @@ public class Vista extends javax.swing.JInternalFrame  {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPersona = new javax.swing.JTable();
-        lblFoto = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(153, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(570, 550));
@@ -153,7 +152,7 @@ public class Vista extends javax.swing.JInternalFrame  {
             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         Fondo.setBackground(new java.awt.Color(0, 255, 255));
         Fondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -252,8 +251,7 @@ public class Vista extends javax.swing.JInternalFrame  {
         ));
         jScrollPane1.setViewportView(tblPersona);
 
-        Fondo.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 640, 430));
-        Fondo.add(lblFoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 110, 220, 430));
+        Fondo.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 900, 430));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -375,13 +373,13 @@ public class Vista extends javax.swing.JInternalFrame  {
         this.jdcFechanacimiento = jdcFechanacimiento;
     }
 
-    public JLabel getLblFoto() {
+    /*public JLabel getLblFoto() {
         return lblFoto;
     }
 
     public void setLblFoto(JLabel lblFoto) {
         this.lblFoto = lblFoto;
-    }
+    }*/
 
     public JTable getTblPersona() {
         return tblPersona;
@@ -488,7 +486,6 @@ public class Vista extends javax.swing.JInternalFrame  {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> jcbSexo;
     private com.toedter.calendar.JDateChooser jdcFechanacimiento;
-    private javax.swing.JLabel lblFoto;
     private javax.swing.JLabel lblImageC;
     private javax.swing.JTable tblPersona;
     private javax.swing.JTextField txtApellidos;

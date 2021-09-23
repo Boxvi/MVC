@@ -64,7 +64,7 @@ public class VPrincipal extends javax.swing.JFrame {
         jPanel2.add(jToolBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 40));
 
         jLabel1.setText("VERSION 1");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 500, 700, 30));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 650, 700, 30));
 
         javax.swing.GroupLayout PrincipalLayout = new javax.swing.GroupLayout(Principal);
         Principal.setLayout(PrincipalLayout);
@@ -74,10 +74,10 @@ public class VPrincipal extends javax.swing.JFrame {
         );
         PrincipalLayout.setVerticalGroup(
             PrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 460, Short.MAX_VALUE)
+            .addGap(0, 610, Short.MAX_VALUE)
         );
 
-        jPanel2.add(Principal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 1160, 460));
+        jPanel2.add(Principal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 1160, 610));
 
         menuPrin.setText("PERSONA");
 
@@ -105,7 +105,7 @@ public class VPrincipal extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
         );
 
         pack();

@@ -26,6 +26,7 @@ public class Persona {
 
     private String edad;
     private String fechas;
+   
 
     //private String edad;
     public Persona() {

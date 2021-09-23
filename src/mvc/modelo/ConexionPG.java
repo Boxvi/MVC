@@ -5,11 +5,14 @@
  */
 package mvc.modelo;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -78,3 +81,32 @@ public class ConexionPG {
     }
 
 }
+
+   /* public boolean accion(String sqla, Object... p) {
+        /*String sqla = "INSERT INTO public.persona"
+                + " (idpersona, nombres, apellidos, fechanacimiento, telefono, sexo, sueldo, cupo, foto)"
+                + " VALUES ('" + getIdpersona() + "', '" + getNombres() + "', '" + getApellidos()
+                + "',to_date('" + getFechas() + "','yyyy-MM-dd') ,'" + getTelefono() + "', '" + getSexo()
+                + "', " + getSueldo() + ", " + getCupo() + ",'" + imageByte. + "')";
+
+        try {
+            PreparedStatement ps = getCon().prepareStatement(sqla);
+            ps.setString(1, p[0].toString());
+            /*ps.setString(2, p[1].toString());
+            ps.setString(3, p[2].toString());
+            ps.setString(4, p[3].toString());
+            ps.setString(5, p[4].toString());
+            ps.setString(6, p[5].toString());
+           ps.setDouble(7, (double) p[6]);
+            ps.setInt(8, (int) p[7]);
+            ps.setBytes(2, (byte[]) p[1]);
+            
+            ps.executeUpdate();
+            ps.close();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexionPG.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+
+    }*/
