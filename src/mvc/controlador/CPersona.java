@@ -85,12 +85,9 @@ public class CPersona {
         DefaultTableModel tblModel;
         tblModel = (DefaultTableModel) vista.getTblPersona().getModel();
         tblModel.setNumRows(0);
-
         List<Persona> lista = modelo.listaPersonas(cadena);
         int ncols = tblModel.getColumnCount();
-
         Holder<Integer> i = new Holder<>(0);
-
         lista.stream().forEach(p -> {
             tblModel.addRow(new Object[ncols]);
             vista.getTblPersona().setValueAt(p.getIdpersona(), i.value, 0);

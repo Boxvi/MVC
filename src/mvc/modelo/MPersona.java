@@ -5,6 +5,7 @@
  */
 package mvc.modelo;
 
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -13,10 +14,14 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReadParam;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 import org.postgresql.util.Base64;
 
 /**
@@ -38,52 +43,48 @@ public class MPersona extends Persona {
 
     }
 
-    private byte[] convertirImagen(Image img) {
-        try {
-            BufferedImage bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB); // (BufferedImage) imagea;
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(bi, "jpg", baos); //formar_name al formato que se trasformo
-            return baos.toByteArray();
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-            return null;// no es buena practica
-        }
-    }
-
-    private Image obtenerImagen(byte[] bytes) {
-        try {
-            ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-            BufferedImage imageb = ImageIO.read(bis);
-            return imageb;
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-            return null;
-        }
-    }
-
-    private String Foto64(Image img) {
-        byte[] imagenBytes = convertirImagen(img);
-        return Base64.encodeBytes(imagenBytes);
-    }
-
     public boolean Crear() {
+        String foto64 = null;
+        try {
+
+            BufferedImage img = imgBimage(getFoto());
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ImageIO.write(img, "PNG", bos);
+            byte[] imgb = bos.toByteArray();
+            foto64 = Base64.encodeBytes(imgb);
+
+        } catch (IOException ex) {
+            Logger.getLogger(MPersona.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         String sqla = "INSERT INTO public.persona"
                 + " (idpersona, nombres, apellidos, fechanacimiento, telefono, sexo, sueldo, cupo, foto)"
                 + " VALUES ('" + getIdpersona() + "', '" + getNombres() + "', '" + getApellidos()
                 + "',to_date('" + getFechas() + "','yyyy-MM-dd') ,'" + getTelefono() + "', '" + getSexo()
-                + "', " + getSueldo() + ", " + getCupo() + ",'" + Foto64(getFoto()) + "')";
+                + "', " + getSueldo() + ", " + getCupo() + ",'" + foto64 + "')";
 
         return con.accion(sqla);
     }
 
     //update
     public boolean Modificar(String Identificador) {
+        String foto64 = null;
+        try {
+
+            BufferedImage img = imgBimage(getFoto());
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ImageIO.write(img, "PNG", bos);
+            byte[] imgb = bos.toByteArray();
+            foto64 = Base64.encodeBytes(imgb);
+
+        } catch (IOException ex) {
+            Logger.getLogger(MPersona.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         String sqla = "UPDATE public.persona "
                 + "SET nombres='" + getNombres() + "', apellidos='" + getApellidos() + "',fechanacimiento= to_date('" + getFechas()
                 + "','yyyy-MM-dd') , telefono='" + getTelefono() + "', sexo='" + getSexo() + "', sueldo=" + getSueldo()
-                + ", cupo=" + getCupo() + ", foto= '" + Foto64(getFoto()) + "'"
+                + ", cupo=" + getCupo() + ", foto= '" + foto64 + "'"
                 + "WHERE idpersona= '" + Identificador + "'";
         System.out.println(sqla);
         return con.accion(sqla);
@@ -155,16 +156,20 @@ public class MPersona extends Persona {
 
     //buscador
     public List<Persona> listaPersonas(String cadena) {
-        String sql = "select idpersona,nombres,apellidos, fechanacimiento,"
-                + "COALESCE(substring(cast(age(fechanacimiento) as character varying),1,2),'N/A'),"
-                + "telefono,sexo,sueldo,cupo,foto from public.persona where";
-        sql += " idpersona like '%" + cadena + "%' ";
-        sql += " OR upper(nombres) like Upper('%" + cadena + "%') ";
-        sql += " OR upper(apellidos) like Upper('%" + cadena + "%') ";
 
-        ResultSet rs = con.consulta(sql);
-        List<Persona> lp = new ArrayList<>();
         try {
+
+            String sql = "select idpersona,nombres,apellidos, fechanacimiento,"
+                    + "COALESCE(substring(cast(age(fechanacimiento) as character varying),1,2),'N/A'),"
+                    + "telefono,sexo,sueldo,cupo,foto from public.persona where";
+            sql += " idpersona like '%" + cadena + "%' ";
+            sql += " OR upper(nombres) like Upper('%" + cadena + "%') ";
+            sql += " OR upper(apellidos) like Upper('%" + cadena + "%') ";
+
+            ResultSet rs = con.consulta(sql);
+            List<Persona> lp = new ArrayList<>();
+
+            byte[] bf;
             while (rs.next()) {
                 Persona per = new Persona();
                 per.setIdpersona(rs.getString("idpersona"));
@@ -177,19 +182,16 @@ public class MPersona extends Persona {
                 per.setSueldo(rs.getDouble("sueldo"));
                 per.setCupo(rs.getInt("cupo"));
 
-                byte[] image = rs.getBytes("foto");
-                if (image != null) {
+                bf = rs.getBytes("foto");
+                if (bf != null) {
+                    bf = Base64.decode(bf, 0, bf.length);
                     try {
-                        image = Base64.decode(image, 0, image.length);
-                        per.setFoto(obtenerImagen(image));
-                    } catch (Exception e) {
-                        per.setFoto(null);
+                        per.setFoto(obtenerImage(bf));
+                    } catch (IOException ex) {
+                        Logger.getLogger(MPersona.class.getName()).log(Level.SEVERE, null, ex);
+                        //System.out.println(ex.getMessage());
                     }
-
-                } else {
-                    per.setFoto(null);
                 }
-
                 lp.add(per);
             }
             rs.close();
@@ -200,6 +202,45 @@ public class MPersona extends Persona {
         }
     }
 
+    private Image obtenerImage(byte[] bytes) throws IOException {
+        ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+        Iterator it = ImageIO.getImageReadersByFormatName("png");
+        ImageReader reader = (ImageReader) it.next();
+        Object source = bais;
+        ImageInputStream iis = ImageIO.createImageInputStream(source);
+        reader.setInput(iis, true);
+        ImageReadParam param = reader.getDefaultReadParam();
+        param.setSourceSubsampling(1, 1, 0, 0);
+        return reader.read(0, param);
+    }
+
+    private BufferedImage imgBimage(Image img) {
+
+        if (img instanceof BufferedImage) {
+            return (BufferedImage) img;
+        }
+        BufferedImage bi = new BufferedImage(
+                img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB
+        );
+
+        Graphics2D bGR = bi.createGraphics();
+        bGR.drawImage(img, 0, 0, null);
+        bGR.dispose();
+        return bi;
+    }
+
+    /*private String Foto64(Image img) {
+        try {
+            BufferedImage image = imgBimage(img);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(image, "PNG", baos);
+            byte[] imagenBytes = baos.toByteArray();
+            return Base64.encodeBytes(imagenBytes);
+        } catch (IOException ex) {
+            Logger.getLogger(MPersona.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }*/
 }
 //create
 /*public boolean Crear() {
@@ -310,4 +351,37 @@ byte[] image = rs.getBytes("foto");
                 }
 
 
+ */
+ /*private byte[] convertirImagen(Image img) {
+        try {
+            BufferedImage bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB); // (BufferedImage) imagea;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bi, "jpg", baos); //formar_name al formato que se trasformo
+            return baos.toByteArray();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+            return null;// no es buena practica
+        }
+    }
+
+    private Image obtenerImagen(byte[] bytes) {
+        try {
+            ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+            BufferedImage imageb = ImageIO.read(bis);
+            return imageb;
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
+    /*
+    private String Foto64(Image img) {
+        byte[] imagenBytes = convertirImagen(img);
+        return Base64.encodeBytes(imagenBytes);
+    }
+
+    
+ /*
+    organiar que el codigo que esta bien 
  */
