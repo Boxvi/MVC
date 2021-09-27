@@ -86,7 +86,7 @@ public class MPersona extends Persona {
                 + "','yyyy-MM-dd') , telefono='" + getTelefono() + "', sexo='" + getSexo() + "', sueldo=" + getSueldo()
                 + ", cupo=" + getCupo() + ", foto= '" + foto64 + "'"
                 + "WHERE idpersona= '" + Identificador + "'";
-        System.out.println(sqla);
+        //System.out.println(sqla);
         return con.accion(sqla);
 
     }
@@ -95,8 +95,8 @@ public class MPersona extends Persona {
     public List<Persona> listaPersonas() {
 
         String sql = "select idpersona,nombres,apellidos, fechanacimiento,"
-                + "COALESCE(substring(cast(age(fechanacimiento) as character varying),1,2),'N/A'),"
-                + "telefono,sexo,sueldo,cupo,foto from public.persona";
+                + "COALESCE(substring(cast(age(fechanacimiento) as character varying),1,2),'N/A'),"//en otros gestores no funca
+                + "telefono,sexo,sueldo,cupo,foto from public.persona";//mas facil la migracion usarar codigo
 
         /*String sql = "select idpersona,nombres,apellidos, "
                 + "COALESCE(substring(cast(age(fechanacimiento) as character varying),1,2),'N/A'),"
@@ -185,12 +185,7 @@ public class MPersona extends Persona {
                 bf = rs.getBytes("foto");
                 if (bf != null) {
                     bf = Base64.decode(bf, 0, bf.length);
-                    try {
-                        per.setFoto(obtenerImage(bf));
-                    } catch (IOException ex) {
-                        Logger.getLogger(MPersona.class.getName()).log(Level.SEVERE, null, ex);
-                        //System.out.println(ex.getMessage());
-                    }
+                    per.setFoto(obtenerImage(bf)); //System.out.println(ex.getMessage());
                 }
                 lp.add(per);
             }
@@ -202,16 +197,26 @@ public class MPersona extends Persona {
         }
     }
 
-    private Image obtenerImage(byte[] bytes) throws IOException {
+    private Image obtenerImage(byte[] bytes) {
         ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
         Iterator it = ImageIO.getImageReadersByFormatName("png");
         ImageReader reader = (ImageReader) it.next();
         Object source = bais;
-        ImageInputStream iis = ImageIO.createImageInputStream(source);
+        ImageInputStream iis = null;
+        try {
+            iis = ImageIO.createImageInputStream(source);
+        } catch (IOException ex) {
+            Logger.getLogger(MPersona.class.getName()).log(Level.SEVERE, null, ex);
+        }
         reader.setInput(iis, true);
         ImageReadParam param = reader.getDefaultReadParam();
         param.setSourceSubsampling(1, 1, 0, 0);
-        return reader.read(0, param);
+        try {
+            return reader.read(0, param);
+        } catch (IOException ex) {
+            Logger.getLogger(MPersona.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     private BufferedImage imgBimage(Image img) {

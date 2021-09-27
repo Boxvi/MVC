@@ -38,6 +38,9 @@ public class VPrincipal extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         tlbManPersonas = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         Principal = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -55,11 +58,31 @@ public class VPrincipal extends javax.swing.JFrame {
 
         jToolBar1.setRollover(true);
 
+        tlbManPersonas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mvc/vista/icons/user.png"))); // NOI18N
         tlbManPersonas.setToolTipText("Mantenimiento de Personas");
         tlbManPersonas.setFocusable(false);
         tlbManPersonas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         tlbManPersonas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(tlbManPersonas);
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mvc/vista/icons/action_add.png"))); // NOI18N
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jButton1);
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mvc/vista/icons/action_check.png"))); // NOI18N
+        jButton2.setFocusable(false);
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jButton2);
+
+        jButton3.setText("imprimir");
+        jButton3.setFocusable(false);
+        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton3.setPreferredSize(new java.awt.Dimension(60, 60));
+        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jButton3);
 
         jPanel2.add(jToolBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 40));
 
@@ -114,6 +137,9 @@ public class VPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane Principal;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu4;
@@ -166,6 +192,8 @@ public class VPrincipal extends javax.swing.JFrame {
         this.tlbManPersonas = tlbManPersonas;
     }
 
+
+    
    
     
 }

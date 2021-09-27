@@ -46,7 +46,7 @@ public class ConexionPG {
     }
 
     public ResultSet consulta(String sqlc) {
-        System.out.println(sqlc);
+        //System.out.println(sqlc);
 
         try {
             st = con.createStatement();
@@ -59,7 +59,7 @@ public class ConexionPG {
     }
 
     public boolean accion(String sqla) {
-        System.out.println(sqla);
+        //System.out.println(sqla);
 
         try {
             st = con.createStatement();
