@@ -9,7 +9,12 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -190,7 +195,12 @@ public class CPersona {
         persona.setIdpersona(vista.getTxtID().getText());
         persona.setNombres(vista.getTxtNombres().getText());
         persona.setApellidos(vista.getTxtApellidos().getText());
-        persona.setFechas(((JTextField) vista.getJdcFechanacimiento().getDateEditor().getUiComponent()).getText());
+        
+        
+        persona.setFechas(
+                ((JTextField) vista.getJdcFechanacimiento().getDateEditor().getUiComponent()).getText());
+       
+        
         persona.setTelefono(vista.getTxtTelefono().getText());
         persona.setSexo(vista.getJcbSexo().getSelectedItem().toString());
         persona.setSueldo(Double.parseDouble(vista.getTxtSueldo().getText()));
@@ -287,12 +297,22 @@ public class CPersona {
             vista.getTxtID().setText(tblPersonas.getValueAt(fila, 0).toString());
             vista.getTxtNombres().setText(tblPersonas.getValueAt(fila, 1).toString());
             vista.getTxtApellidos().setText(tblPersonas.getValueAt(fila, 2).toString());
-            vista.getJdcFechanacimiento().setDateFormatString(tblPersonas.getValueAt(fila, 3).toString());
-
+            String fecha = (tblPersonas.getValueAt(fila, 3).toString());
+            Date sFecha;
+            try {
+                sFecha = new SimpleDateFormat("yyyy-MM-dd").parse(fecha);
+                vista.getJdcFechanacimiento().setDate(sFecha);//setDateFormatString(tblPersonas.getValueAt(fila, 3).toString());
+            } catch (ParseException ex) {
+                Logger.getLogger(CPersona.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             vista.getTxtTelefono().setText(tblPersonas.getValueAt(fila, 5).toString());
             vista.getJcbSexo().setSelectedItem(tblPersonas.getValueAt(fila, 6));
             vista.getTxtSueldo().setText(tblPersonas.getValueAt(fila, 7).toString());
             vista.getTxtCupo().setText(tblPersonas.getValueAt(fila, 8).toString());
+            
+            JLabel lbl = (JLabel) tblPersonas.getValueAt(fila, 9);
+            vista.getLblImageC().setIcon(lbl.getIcon());
 
         } else {
             JOptionPane.showMessageDialog(vista, "DE PRIMERO CLICK ENCIMA EN ALGUNA PERSONA Y LUEGO EN EDITAR", "AVISO", 2);
@@ -323,8 +343,14 @@ public class CPersona {
     
         ConexionPG con= new ConexionPG();
         try {
-            JasperReport jr=(JasperReport) JRLoader.loadObject(getClass().getResource("/mvc/vista/reportes/Lista_Personas.jasper"));
-            JasperPrint jp =JasperFillManager.fillReport(jr, null,con.getCon());
+            JasperReport jr=(JasperReport) JRLoader.loadObject(getClass().getResource("/mvc/vista/reportes/personitas.jasper"));
+            
+           Map<String,Object> para = new HashMap<String , Object>();
+           String miaguja = vista.getTxtBuscador().getText();
+            para.put("aguja", "%"+miaguja+"%");
+            
+            
+            JasperPrint jp =JasperFillManager.fillReport(jr, para,con.getCon());
             JasperViewer jv=new JasperViewer(jp);
             jv.setVisible(true);
         } catch (JRException ex) {
