@@ -234,18 +234,6 @@ public class MPersona extends Persona {
         return bi;
     }
 
-    /*private String Foto64(Image img) {
-        try {
-            BufferedImage image = imgBimage(img);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(image, "PNG", baos);
-            byte[] imagenBytes = baos.toByteArray();
-            return Base64.encodeBytes(imagenBytes);
-        } catch (IOException ex) {
-            Logger.getLogger(MPersona.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }*/
 }
 //create
 /*public boolean Crear() {
@@ -266,27 +254,6 @@ public class MPersona extends Persona {
             System.out.println(ex.getMessage());
         }
 
-byte[] image = rs.getBytes("foto");
-                if (image != null) {
-                    image= Base64.decode(image, 0, image.length);
-                    
-                    per.setFoto(obtenerImagen(rs.getBytes("foto")));
-                } else {
-                    per.setFoto(null);
-                }
-
-
- /*String sqla = "INSERT INTO public.persona"
-                + " (idpersona, nombres, apellidos, fechanacimiento, telefono, sexo, sueldo, cupo, foto)"
-                + " VALUES ('" + getIdpersona() + "', '" + getNombres() + "', '" + getApellidos()
-                + "',to_date('" + getFechas() + "','yyyy-MM-dd') ,'" + getTelefono() + "', '" + getSexo()
-                + "', " + getSueldo() + ", " + getCupo() + ",'" + imageByte. + "')";*/
- /*String sqla =  "Insert into persona "
-                + "(idpersona, nombres, apellidos, fechanacimiento, telefono, sexo, sueldo, cupo, foto) "
-                + "VALUES (?,?,?,?,?,?,?,?,?)";*/
- /*String sqla = "Insert into persona "
-                + "(idpersona, foto) "
-                + "VALUES (?, ?)";
 
         //System.out.println(sqla);
         //return con.accion(sqla, getIdpersona(), getNombres(),getApellidos(),getFechas(),getTelefono(),getSexo(),getSueldo(), getCupo(), imageByte);
@@ -309,20 +276,6 @@ byte[] image = rs.getBytes("foto");
 
 
     }*/
- /*private BufferedImage imgBimage(Image img) {
-        if (img instanceof BufferedImage) {
-            return (BufferedImage) img;
-        }
-
-        BufferedImage bi = new BufferedImage(img.getWidth(null), img.getHeight(null),
-                BufferedImage.TYPE_INT_ARGB);
-
-        Graphics2D bGR = bi.createGraphics();
-        bGR.drawImage(img, 0, 0, null);
-        bGR.dispose();
-        return bi;
-    }
- */
  /*
     private Image obtenerImagen(byte[] bytes) throws IOException {
 
@@ -357,7 +310,8 @@ byte[] image = rs.getBytes("foto");
 
 
  */
- /*private byte[] convertirImagen(Image img) {
+ 
+/*private byte[] convertirImagen(Image img) {
         try {
             BufferedImage bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB); // (BufferedImage) imagea;
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -380,13 +334,5 @@ byte[] image = rs.getBytes("foto");
         }
     }
 
-    /*
-    private String Foto64(Image img) {
-        byte[] imagenBytes = convertirImagen(img);
-        return Base64.encodeBytes(imagenBytes);
-    }
-
-    
- /*
     organiar que el codigo que esta bien 
  */
